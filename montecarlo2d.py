@@ -30,6 +30,7 @@ def f(x):
         # So f=rho/epsilon
         return charge_density / epsilon_naught
 
+
 # Two Dimentional Boundary Conditions
 
 
@@ -40,6 +41,7 @@ def g(x):
         return boundary_voltage_high
     if x[1] <= 0 or x[1] >= h:
         return boundary_voltage_low
+
 
 # Returns the Value of Potential Feild at a given point A with N random walks
 @np.vectorize
@@ -60,27 +62,34 @@ def poisson_approximation(*A):
                 x[1] += d
             elif random_number == 3:
                 x[1] -= d
-            F += f(x) / h**2
+            F += f(x) / h ** 2
         result += g(x) - F
     result = result / N
     return result
+
 
 # Function for plotting the potential
 
 
 def plot(x, y, z):
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.add_subplot(111, projection="3d")
 
     ax.plot_surface(x, y, np.array(z), cmap=cm.jet, linewidth=0.1)
-    plt.xlabel('(Meters)')
-    plt.ylabel('(Meters)')
+    plt.xlabel("(Meters)")
+    plt.ylabel("(Meters)")
     plt.show()
 
 
 if __name__ == "__main__":
     for laplace in True, False:
-        print(f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}")
-        lattice_x, lattice_y = np.mgrid[0:h:lattice_points * 1j, 0:h:lattice_points * 1j]
-        z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(lattice_x.shape)
+        print(
+            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
+        )
+        lattice_x, lattice_y = np.mgrid[
+            0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
+        ]
+        z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+            lattice_x.shape
+        )
         plot(lattice_x, lattice_y, z)
