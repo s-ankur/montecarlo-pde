@@ -7,27 +7,33 @@ import gif
 import numpy as np
 
 h=10e-2 # Distance between plates = 10cm
-lattice_points = 10 # Number of Points in lattice
+lattice_points = 15 # Number of Points in lattice
 d=h/lattice_points  # Lattice size = 1cm
-laplace = True # False-> Poisson, True-> Laplace
+laplace = False # False-> Poisson, True-> Laplace
 boundary_voltage_high = 5.0 # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate
 epsilon_naught = 8.854e-12  # Permittivity of Vaccum
-charge_density = 10e-60 # Coulomb per meter cube
+charge_density = 2e-15 # Coulomb per meter cube
 
+# The Function \nabla^2(phi)  = f
 def f(x):
     if laplace:
+        # For Laplace f = 0
         return 0
     else:
-        return 12/epsilon_naught
+        # For Poisson, assume that there is a constant charge density
+        # between the plates
+        # So f=rho/epsilon
+        return charge_density/epsilon_naught 
 
+# One Dimentional Boundary Conditions
 def g(x):
     if x<=0:
         return boundary_voltage_low
     return boundary_voltage_high
 
 # Returns the Value of Potential Feild at a given point A with N random walks
-def poisson(A,N):
+def poisson_approximation(A,N):
     result =0
     for i in range(N):
         x=A
@@ -44,23 +50,24 @@ def poisson(A,N):
     result=result/N
     return result
 
+# Function for plotting the potential
 @gif.frame
 def plot(x, y):
     plt.figure(figsize=(7, 5), dpi=100)
     plt.plot(x, y)
     plt.text(h,0 , f'N = {N}',  ha='right')
     plt.text(h,0.4 , f'L = {lattice_points}',  ha='right')
-
+    plt.ylim(-2,7)
     plt.xlabel('Distance from negative plate (Meters)')
     plt.ylabel('Potential (Volts)')
-    plt.show()
+#    plt.show()
 
 # Analysis with respect to Number of Random Walks
 frames=[]
-for N in range(5,1500,20):
+for N in range(10,1500,20):
     print(f"Calculating Monte Carlo with {lattice_points} Lattice Points and {N} random walks ")
     lattice= np.linspace(0,h,num=lattice_points,endpoint=True)
-    frame=plot(lattice,[poisson(A, N) for A in lattice])
+    frame=plot(lattice,[poisson_approximation(A, N) for A in lattice])
     frames.append(frame)       
     gif.save(frames, f"{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100)
 
@@ -71,7 +78,7 @@ for lattice_points in range(2,41):
     print(f"Calculating Monte Carlo with {lattice_points} Lattice Points and {N} random walks ")
     d=h/lattice_points 
     lattice= np.linspace(0,h,num=lattice_points,endpoint=True)
-    frame=plot(lattice,[poisson(A, N) for A in lattice])
+    frame=plot(lattice,[poisson_approximation(A, N) for A in lattice])
     frames.append(frame)       
     gif.save(frames, f"{'Laplace' if laplace else 'Poisson'}_Lattice.gif", duration=100)
   
