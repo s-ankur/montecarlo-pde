@@ -8,33 +8,33 @@ from matplotlib import cm
 import numpy as np
 
 h = 10e-2  # Distance between plates = 10cm
-lattice_points = 15  # Number of Points in lattice
+lattice_points = 30  # Number of Points in lattice
 d = h / lattice_points  # Lattice size = 1cm
 laplace = True  # False-> Poisson, True-> Laplace
 boundary_voltage_high = 5.0  # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate
 epsilon_naught = 8.854e-12  # Permittivity of Vaccum
 charge_density = 6e-16  # Coulomb per meter cube
-N = 500  # Number of Random Walks
-
-# The Function \nabla^2(phi)  = f
+N = 400  # Number of Random Walks
 
 
 def f(x):
+    # The Function \nabla^2(phi)  = f
     if laplace:
         # For Laplace f = 0
         return 0
     else:
         # For Poisson, assume that there is a constant charge density
         # between the plates
-        # So f=rho/epsilon
-        return charge_density / epsilon_naught
-
-
-# Two Dimentional Boundary Conditions
+        # So f= - rho/epsilon
+        return -charge_density / epsilon_naught
 
 
 def g(x):
+    # Two Dimentional Boundary Conditions: two parallel metal plates at x=0,x=h
+    # the plate at x=h is at high potential and x=0 is low potential
+    # Assume that there are metal plates along y=0 and y=h (uncharged)
+    # this is because I dont know how to simulate open boundry conditions
     if x[0] <= 0:
         return boundary_voltage_low
     if x[0] >= h:
@@ -43,9 +43,22 @@ def g(x):
         return boundary_voltage_low
 
 
-# Returns the Value of Potential Feild at a given point A with N random walks
+def f_2(x):
+    # Alternative charge distribution: A charged Sphere in the centre of metal box
+    if (h / 2 - x[0]) ** 2 + (h / 2 - x[1]) ** 2 <= (h / 4) ** 2:
+        return -charge_density * 5 / epsilon_naught
+    else:
+        return 0
+
+
+def g_2(x):
+    # Two Dimentional Alternative Boundary Conditions: uncharged metal box
+    return 0
+
+
 @np.vectorize
 def poisson_approximation(*A):
+    # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
     for i in range(N):
         x = list(A)
@@ -68,10 +81,8 @@ def poisson_approximation(*A):
     return result
 
 
-# Function for plotting the potential
-
-
 def plot(x, y, z):
+    # Function for plotting the potential
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
 
@@ -82,6 +93,7 @@ def plot(x, y, z):
 
 
 if __name__ == "__main__":
+    # Experiment 2: 2D Capacitor
     for laplace in True, False:
         print(
             f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
@@ -93,3 +105,16 @@ if __name__ == "__main__":
             lattice_x.shape
         )
         plot(lattice_x, lattice_y, z)
+
+    ## Experiment 3: Metal box with negatively charged metal ball inside
+    f = f2, g = g2
+    print(
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
+    )
+    lattice_x, lattice_y = np.mgrid[
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
+    ]
+    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+        lattice_x.shape
+    )
+    plot(lattice_x, lattice_y, z)

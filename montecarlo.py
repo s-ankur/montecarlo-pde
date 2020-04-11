@@ -16,33 +16,28 @@ epsilon_naught = 8.854e-12  # Permittivity of Vaccum
 charge_density = 2e-15  # Coulomb per meter cube
 N = 500  # Number of Random Walks
 
-# The Function \nabla^2(phi)  = f
-
 
 def f(x):
+    # The Function \nabla^2(phi)  = f
     if laplace:
         # For Laplace f = 0
         return 0
     else:
         # For Poisson, assume that there is a constant charge density
         # between the plates
-        # So f=rho/epsilon
-        return charge_density / epsilon_naught
-
-
-# One Dimentional Boundary Conditions
+        # So f= - rho/epsilon
+        return -charge_density / epsilon_naught
 
 
 def g(x):
+    # One Dimentional Boundary Conditions
     if x <= 0:
         return boundary_voltage_low
     return boundary_voltage_high
 
 
-# Returns the Value of Potential Feild at a given point A with N random walks
-
-
-def poisson_approximation(A, N):
+def poisson_approximation(A):
+    # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
     for i in range(N):
         x = A
@@ -72,9 +67,6 @@ def plot(x, y):
     plt.ylabel("Potential (Volts)")
 
 
-#    plt.show()
-
-
 if __name__ == "__main__":
     for laplace in True, False:
         # Analysis with respect to Number of Random Walks
@@ -85,7 +77,7 @@ if __name__ == "__main__":
                 f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
             )
             lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-            frame = plot(lattice, [poisson_approximation(A, N) for A in lattice])
+            frame = plot(lattice, [poisson_approximation(A) for A in lattice])
             frames.append(frame)
             gif.save(
                 frames, f"{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100
@@ -100,7 +92,7 @@ if __name__ == "__main__":
             )
             d = h / lattice_points
             lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-            frame = plot(lattice, [poisson_approximation(A, N) for A in lattice])
+            frame = plot(lattice, [poisson_approximation(A) for A in lattice])
             frames.append(frame)
             gif.save(
                 frames,
