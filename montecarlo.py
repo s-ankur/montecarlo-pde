@@ -13,8 +13,8 @@ laplace = False  # False-> Poisson, True-> Laplace
 boundary_voltage_high = 5.0  # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate
 epsilon_naught = 8.854e-12  # Permittivity of Vaccum
-charge_density = 2e-15  # Coulomb per meter cube
-N = 500  # Number of Random Walks
+charge_density = 2e-16  # Coulomb per meter cube
+N = 400  # Number of Random Walks
 
 
 def f(x):
@@ -30,7 +30,7 @@ def f(x):
 
 
 def g(x):
-    # One Dimentional Boundary Conditions
+    # One Dimentional Boundary Conditions: 
     if x <= 0:
         return boundary_voltage_low
     return boundary_voltage_high
@@ -68,6 +68,7 @@ def plot(x, y):
 
 
 if __name__ == "__main__":
+    # Experiment 1: One Dimentional Capacitor.
     for laplace in True, False:
         # Analysis with respect to Number of Random Walks
         frames = []
@@ -85,7 +86,7 @@ if __name__ == "__main__":
 
         # Analysis with respect to number of Lattice Points
         frames = []
-        N = 500
+        N = 400
         for lattice_points in range(2, 41):
             print(
                 f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"

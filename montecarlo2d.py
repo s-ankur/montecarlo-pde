@@ -45,7 +45,7 @@ def g(x):
 
 def f_2(x):
     # Alternative charge distribution: A charged Sphere in the centre of metal box
-    if (h / 2 - x[0]) ** 2 + (h / 2 - x[1]) ** 2 <= (h / 4) ** 2:
+    if (h / 2 - x[0]) ** 2 + (h / 2 - x[1]) ** 2 <= (h / 5) ** 2:
         return -charge_density * 5 / epsilon_naught
     else:
         return 0
@@ -87,8 +87,9 @@ def plot(x, y, z):
     ax = fig.add_subplot(111, projection="3d")
 
     ax.plot_surface(x, y, np.array(z), cmap=cm.jet, linewidth=0.1)
-    plt.xlabel("(Meters)")
-    plt.ylabel("(Meters)")
+    plt.xlabel("X (Meters)")
+    plt.ylabel("Y (Meters)")
+    ax.set_zlabel("Potential (Volts)")
     plt.show()
 
 
