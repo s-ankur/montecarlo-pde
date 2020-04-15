@@ -8,7 +8,7 @@ import numpy as np
 
 h = 10e-2  # Distance between plates = 10cm
 lattice_points = 15  # Number of Points in lattice
-d = h / lattice_points  # Lattice size = 1cm
+d = h / lattice_points  # Lattice size
 laplace = False  # False-> Poisson, True-> Laplace
 boundary_voltage_high = 5.0  # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate

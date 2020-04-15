@@ -9,7 +9,7 @@ import numpy as np
 
 h = 10e-2  # Distance between plates = 10cm
 lattice_points = 30  # Number of Points in lattice
-d = h / lattice_points  # Lattice size = 1cm
+d = h / lattice_points  # Lattice size
 boundary_voltage_high = 5.0  # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate
 epsilon_naught = 8.854e-12  # Permittivity of Vaccum
@@ -102,38 +102,38 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks"
     )
     lattice_x, lattice_y = np.mgrid[
-        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
+        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
     ]
     z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
     )
     plot(lattice_x, lattice_y, z)
 
-##    # Experiment 3: Metal box with positively charged metal ball inside
-##    f = f2
-##    g = g2
-##    print(
-##        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
-##    )
-##    lattice_x, lattice_y = np.mgrid[
-##        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
-##    ]
-##    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
-##        lattice_x.shape
-##    )
-##    plot(lattice_x, lattice_y, z)
-##
-##    # Experiment 4: Metal Box with two spheres (positive and negative)
-##
-##    f = f_3
-##    g = g_2
-##    print(
-##        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
-##    )
-##    lattice_x, lattice_y = np.mgrid[
-##        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
-##    ]
-##    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
-##        lattice_x.shape
-##    )
-##    plot(lattice_x, lattice_y, z)
+    # Experiment 3: Metal box with positively charged metal ball inside
+    f = f2
+    g = g2
+    print(
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
+    )
+    lattice_x, lattice_y = np.mgrid[
+        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+    ]
+    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+        lattice_x.shape
+    )
+    plot(lattice_x, lattice_y, z)
+
+    # Experiment 4: Metal Box with two spheres (positive and negative)
+
+    f = f_3
+    g = g_2
+    print(
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
+    )
+    lattice_x, lattice_y = np.mgrid[
+        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+    ]
+    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+        lattice_x.shape
+    )
+    plot(lattice_x, lattice_y, z)
