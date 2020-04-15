@@ -5,7 +5,11 @@ Monte Carlo Method to Solve Laplace and Poisson Equations with 3 Examples.
 
 
 2. Two Dimentional Capacitor
-
+<p float="left">
+  <img src="Figures/Figure_231.png" width="250" />
+  <img src="Figures/Figure_1323.png" width="250" /> 
+  <img src="Figures/Figure_13232.png" width="250" />
+</p>
 
 3. Metal Box with negatively charged sphere inside
 <p float="left">
