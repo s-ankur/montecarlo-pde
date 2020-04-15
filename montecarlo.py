@@ -30,7 +30,7 @@ def f(x):
 
 
 def g(x):
-    # One Dimentional Boundary Conditions: 
+    # One Dimentional Boundary Conditions:
     if x <= 0:
         return boundary_voltage_low
     return boundary_voltage_high
@@ -59,7 +59,7 @@ def poisson_approximation(A):
 @gif.frame
 def plot(x, y):
     plt.figure(figsize=(7, 5), dpi=100)
-    plt.plot(x, y)
+    plt.plot(x, y, "r.")
     plt.text(h, 0, f"N = {N}", ha="right")
     plt.text(h, 0.4, f"L = {lattice_points}", ha="right")
     plt.ylim(-2, 7)
