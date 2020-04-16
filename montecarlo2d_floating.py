@@ -33,6 +33,7 @@ def g(x):
 
 @np.vectorize
 def poisson_approximation(*A):
+    print(A)
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
     for i in range(N):
