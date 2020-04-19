@@ -70,12 +70,12 @@ def plot(x, y):
 if __name__ == "__main__":
     # Experiment 1: One Dimentional Capacitor.
     for N in range(10, 1500, 20):
-            print(
-                f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
-            )
-            lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-            jplot(lattice, [poisson_approximation(A) for A in lattice])
-            
+        print(
+            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
+        )
+        lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
+        jplot(lattice, [poisson_approximation(A) for A in lattice])
+
     for laplace in True, False:
         # Analysis with respect to Number of Random Walks
         frames = []
