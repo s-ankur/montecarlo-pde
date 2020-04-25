@@ -36,7 +36,7 @@ def g(x):
     return boundary_voltage_high
 
 
-def poisson_approximation(A):
+def poisson_approximation_fixed_step(A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
     for i in range(N):
@@ -74,7 +74,7 @@ if __name__ == "__main__":
             f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
         )
         lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-        jplot(lattice, [poisson_approximation(A) for A in lattice])
+        plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
 
     for laplace in True, False:
         # Analysis with respect to Number of Random Walks
@@ -85,7 +85,7 @@ if __name__ == "__main__":
                 f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
             )
             lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-            frame = plot(lattice, [poisson_approximation(A) for A in lattice])
+            frame = plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
             frames.append(frame)
             gif.save(
                 frames, f"Figures/{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100
@@ -100,7 +100,7 @@ if __name__ == "__main__":
             )
             d = h / lattice_points
             lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-            frame = plot(lattice, [poisson_approximation(A) for A in lattice])
+            frame = plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
             frames.append(frame)
             gif.save(
                 frames,

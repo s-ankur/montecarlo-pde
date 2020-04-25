@@ -60,7 +60,7 @@ def f_3(x):
 
 
 @np.vectorize
-def poisson_approximation(*A):
+def poisson_approximation_fixed_step(*A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
     for i in range(N):
@@ -97,19 +97,19 @@ def plot(x, y, z):
 
 
 if __name__ == "__main__":
-    # Experiment 2: 2D Capacitor
+    # Experiment E: 2D Capacitor
     print(
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks"
     )
     lattice_x, lattice_y = np.mgrid[
         0: h: lattice_points * 1j, 0: h: lattice_points * 1j
     ]
-    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+    z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
     )
     plot(lattice_x, lattice_y, z)
 
-    # Experiment 3: Metal box with positively charged metal ball inside
+    # Experiment F: Metal box with positively charged metal ball inside
     f = f2
     g = g2
     print(
@@ -118,12 +118,12 @@ if __name__ == "__main__":
     lattice_x, lattice_y = np.mgrid[
         0: h: lattice_points * 1j, 0: h: lattice_points * 1j
     ]
-    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+    z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
     )
     plot(lattice_x, lattice_y, z)
 
-    # Experiment 4: Metal Box with two spheres (positive and negative)
+    # Experiment G: Metal Box with two spheres (positive and negative)
 
     f = f_3
     g = g_2
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     lattice_x, lattice_y = np.mgrid[
         0: h: lattice_points * 1j, 0: h: lattice_points * 1j
     ]
-    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+    z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
     )
     plot(lattice_x, lattice_y, z)
