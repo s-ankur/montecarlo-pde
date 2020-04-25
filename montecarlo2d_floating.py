@@ -32,7 +32,7 @@ def g(x):
 
 
 @np.vectorize
-def poisson_approximation(*A):
+def poisson_approximation_semi_floating(*A):
     print(A)
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
@@ -53,6 +53,29 @@ def poisson_approximation(*A):
     return result
 
 
+@np.vectorize
+def poisson_approximation_full_floating(*A):
+    print(A)
+    # Returns the Value of Potential Feild at a given point A with N random walks
+    result = 0
+    for i in range(N):
+        x = list(A)
+        F = 0
+        while True:
+            if x[0] <= 0 or x[0] >= h or x[1] <= 0 or x[1] >= h:
+                break
+            random_angle = random.random() * 2 * math.pi
+            random_unit_vector = np.array(
+                [math.cos(random_angle), math.sin(random_angle)]
+            )
+            random_step_size = random.random() * d
+            x += random_unit_vector * random_step_size
+            F += f(x) / h ** 2
+        result += g(x) - F
+    result = result / N
+    return result
+
+
 def plot(x, y, z):
     # Function for plotting the potential
     fig = plt.figure()
@@ -66,14 +89,26 @@ def plot(x, y, z):
 
 
 if __name__ == "__main__":
-    # Experiment : Floating Random Walk
+    # Experiment H : Semi Floating Random Walk
     print(
-        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks"
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Semi Floating Random Walk Algorithm"
     )
     lattice_x, lattice_y = np.mgrid[
         0: h: lattice_points * 1j, 0: h: lattice_points * 1j
     ]
-    z = poisson_approximation(lattice_x.ravel(), lattice_y.ravel()).reshape(
+    z = poisson_approximation_semi_floating(lattice_x.ravel(), lattice_y.ravel()).reshape(
+        lattice_x.shape
+    )
+    plot(lattice_x, lattice_y, z)
+
+    # Experiment H :  Full Floating Random Walk
+    print(
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Full Floating Random Walk Algorithm"
+    )
+    lattice_x, lattice_y = np.mgrid[
+        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+    ]
+    z = poisson_approximation_full_floating(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
     )
     plot(lattice_x, lattice_y, z)
