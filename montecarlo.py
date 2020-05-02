@@ -13,7 +13,7 @@ laplace = False  # False-> Poisson, True-> Laplace
 boundary_voltage_high = 5.0  # 5 Volts at Positive Plate
 boundary_voltage_low = 0.0  # 0 Volts at Negative Plate
 epsilon_naught = 8.854e-12  # Permittivity of Vaccum
-charge_density = 2e-16  # Coulomb per meter cube
+charge_density = 1e-14  # Coulomb per meter cube
 N = 400  # Number of Random Walks
 
 
@@ -26,7 +26,7 @@ def f(x):
         # For Poisson, assume that there is a constant charge density
         # between the plates
         # So f= - rho/epsilon
-        return -charge_density / epsilon_naught
+        return (x / h - .5) * -charge_density / epsilon_naught
 
 
 def g(x):
@@ -56,10 +56,12 @@ def poisson_approximation_fixed_step(A):
 
 
 # Function for plotting the potential
-@gif.frame
-def plot(x, y):
+
+def plot(x, y, y2=None):
     plt.figure(figsize=(7, 5), dpi=100)
-    plt.plot(x, y, "r.")
+    plt.plot(x, y, "r.-")
+    if y2 is not None:
+        plt.plot(x, y2, "b-")
     plt.text(h, 0, f"N = {N}", ha="right")
     plt.text(h, 0.4, f"L = {lattice_points}", ha="right")
     plt.ylim(-2, 7)
@@ -67,47 +69,9 @@ def plot(x, y):
     plt.ylabel("Potential (Volts)")
 
 
+plotgif = gif.frame(plot)
+
 if __name__ == "__main__":
-    # Experiment A: One Dimensional Capacitor (Laplace Equation)
-    N = 400
-    lattice_points = 15
-    print(
-        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Laplace Equation"
-    )
-    lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-    plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
-
-    # Experiment B: Variation of solution with number of random walks (Laplace Equation)
-    frames = []
-    lattice_points = 15
-    for N in range(10, 1500, 20):
-        print(
-            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Laplace Equation"
-        )
-        lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-        frame = plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
-        frames.append(frame)
-        gif.save(
-            frames, f"Figures/{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100
-        )
-
-    # Experiment B: Variation of solution with number of lattice points (Laplace Equation)
-    frames = []
-    N = 400
-    for lattice_points in range(2, 41):
-        print(
-            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Poisson Equation"
-        )
-        d = h / lattice_points
-        lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
-        frame = plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
-        frames.append(frame)
-        gif.save(
-            frames,
-            f"Figures/{'Laplace' if laplace else 'Poisson'}_Lattice.gif",
-            duration=100,
-        )
-
     # Experiment D: One Dimensional Capacitor with constant charge distribution (Poisson Equation)
     laplace = False
     print(
@@ -115,3 +79,62 @@ if __name__ == "__main__":
     )
     lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
     plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice])
+    plt.show()
+
+    # Experiment A: One Dimensional Capacitor (Laplace Equation)
+    N = 400
+    lattice_points = 15
+    print(
+        f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Laplace Equation"
+    )
+    lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
+    feild_real = (boundary_voltage_high - boundary_voltage_low) / h * lattice
+    plot(lattice, [poisson_approximation_fixed_step(A) for A in lattice], feild_real)
+    plt.show()
+
+    # Experiment B: Variation of solution with number of random walks (Laplace Equation)
+    frames = []
+    lattice_points = 15
+    lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
+    feild_real = (boundary_voltage_high - boundary_voltage_low) / h * lattice
+    feild_diff = []
+    for N in range(10, 1000, 20):
+        print(
+            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Laplace Equation"
+        )
+        feild_approx = np.array([poisson_approximation_fixed_step(A) for A in lattice])
+        frame = plotgif(lattice, feild_approx, feild_real)
+        feild_diff.append(abs(feild_real - feild_approx).sum())
+        frames.append(frame)
+        gif.save(
+            frames, f"Figures/{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100
+        )
+    plt.plot(range(10, 1000, 20), feild_diff, 'g.-')
+    plt.xlabel("Number of Random Walks")
+    plt.ylabel("Abs Error")
+    plt.show()
+
+    # Experiment C: Variation of solution with number of lattice points (Laplace Equation)
+    frames = []
+    feild_diff = []
+    N = 400
+    for lattice_points in range(2, 30):
+        print(
+            f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Laplace Equation"
+        )
+        d = h / lattice_points
+        lattice = np.linspace(0, h, num=lattice_points, endpoint=True)
+        feild_real = (boundary_voltage_high - boundary_voltage_low) / h * lattice
+        feild_approx = np.array([poisson_approximation_fixed_step(A) for A in lattice])
+        frame = plotgif(lattice, feild_approx, feild_real)
+        feild_diff.append(abs(feild_real - feild_approx).sum())
+        frames.append(frame)
+        gif.save(
+            frames,
+            f"Figures/{'Laplace' if laplace else 'Poisson'}_Lattice.gif",
+            duration=100,
+        )
+    plt.plot(range(2, 30), feild_diff)
+    plt.xlabel("Number of Lattice Points")
+    plt.ylabel("Abs Error")
+    plt.show()
