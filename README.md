@@ -43,7 +43,7 @@ C. Variation of solution with number of lattice points
 D.One dimensional capacitor with a linear charge
 distribution (Poisson Equation)
 <p float="left">
-  <img src="Figures/D1.gif"  />
+  <img src="Figures/D1.png"  />
 </p>
 
 E. Two dimentional capacitor (Laplace Equation)
