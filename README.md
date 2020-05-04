@@ -29,15 +29,15 @@ A. One dimentional capacitor (Laplace Equation)
 B. Variation of solution with number of random walks
 (Laplace Equation)
 <p float="left">
-  <img src="Figures/B1.gif" width="50%" />
-  <img src="Figures/B2.png" width="50%" /> 
+  <img src="Figures/B1.gif" width="49%" />
+  <img src="Figures/B2.png" width="49%" /> 
 </p>
 
 C. Variation of solution with number of lattice points
 (Laplace Equation)
 <p float="left">
-  <img src="Figures/C1.gif" width="50%" />
-  <img src="Figures/C2.png" width="50%" /> 
+  <img src="Figures/C1.gif" width="49%" />
+  <img src="Figures/C2.png" width="49%" /> 
 </p>
 
 D.One dimensional capacitor with a linear charge
@@ -48,12 +48,12 @@ distribution (Poisson Equation)
 
 E. Two dimentional capacitor (Laplace Equation)
 <p float="left">
-  <img src="Figures/E1.png" width="50%" />
-  <img src="Figures/E2.png" width="50%" /> 
+  <img src="Figures/E1.png" width="49%" />
+  <img src="Figures/E2.png" width="49%" /> 
 </p>
 <p float="left">
-  <img src="Figures/E4.png" width="50%" />
-  <img src="Figures/E5.png" width="50%" /> 
+  <img src="Figures/E4.png" width="49%" />
+  <img src="Figures/E5.png" width="49%" /> 
 </p>
 
 F.Two dimentional metal box with a spherical charge in
@@ -67,12 +67,12 @@ centre (Poisson Equation)
 G. Two dimentional metal box with a two oppositely charged
 spheres (Poisson Equation)
 <p float="left">
-  <img src="Figures/G1.png" width="50%" />
-  <img src="Figures/G2.png" width="50%" /> 
+  <img src="Figures/G1.png" width="49%" />
+  <img src="Figures/G2.png" width="49%" /> 
 </p>
 <p float="left">
-  <img src="Figures/G4.png" width="50%" />
-  <img src="Figures/G5.png" width="50%" /> 
+  <img src="Figures/G4.png" width="49%" />
+  <img src="Figures/G5.png" width="49%" /> 
 </p>
 
 H.Two dimentional metal box with a spherical charge at
@@ -80,8 +80,8 @@ center using semi-floating random walk algorithm
 (Poisson Equation)
 
 <p float="left">
-  <img src="Figures/H1.png" width="50%" />
-  <img src="Figures/H2.png" width="50%" /> 
+  <img src="Figures/H1.png" width="49%" />
+  <img src="Figures/H2.png" width="49%" /> 
 </p>
 
 I. Two dimentional metal box with a spherical charge at
