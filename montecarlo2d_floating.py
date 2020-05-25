@@ -35,9 +35,9 @@ def g(x):
 def poisson_approximation_semi_floating(*A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
+    F = 0
     for i in range(N):
         x = list(A)
-        F = 0
         while True:
             if x[0] <= 0 or x[0] >= h or x[1] <= 0 or x[1] >= h:
                 break
@@ -46,9 +46,9 @@ def poisson_approximation_semi_floating(*A):
                 [math.cos(random_angle), math.sin(random_angle)]
             )
             x += random_unit_vector * d
-            F += f(x) / h ** 2
-        result += g(x) - F
-    result = result / N
+            F += f(x) * d ** 2
+        result += g(x) / N
+    result = result - F
     return result
 
 
@@ -56,9 +56,9 @@ def poisson_approximation_semi_floating(*A):
 def poisson_approximation_full_floating(*A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
+    F = 0
     for i in range(N):
         x = list(A)
-        F = 0
         while True:
             if x[0] <= 0 or x[0] >= h or x[1] <= 0 or x[1] >= h:
                 break
@@ -68,9 +68,9 @@ def poisson_approximation_full_floating(*A):
             )
             random_step_size = random.random() * d
             x += random_unit_vector * random_step_size
-            F += f(x) / h ** 2
-        result += g(x) - F
-    result = result / N
+            F += f(x) * h ** 2
+        result += g(x) / N
+    result = result - F
     return result
 
 
@@ -92,11 +92,11 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Semi Floating Random Walk Algorithm"
     )
     lattice_x, lattice_y = np.mgrid[
-        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
     ]
-    z = poisson_approximation_semi_floating(lattice_x.ravel(), lattice_y.ravel()).reshape(
-        lattice_x.shape
-    )
+    z = poisson_approximation_semi_floating(
+        lattice_x.ravel(), lattice_y.ravel()
+    ).reshape(lattice_x.shape)
     plot(lattice_x, lattice_y, z)
 
     # Experiment H :  Full Floating Random Walk
@@ -104,9 +104,9 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for Full Floating Random Walk Algorithm"
     )
     lattice_x, lattice_y = np.mgrid[
-        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
     ]
-    z = poisson_approximation_full_floating(lattice_x.ravel(), lattice_y.ravel()).reshape(
-        lattice_x.shape
-    )
+    z = poisson_approximation_full_floating(
+        lattice_x.ravel(), lattice_y.ravel()
+    ).reshape(lattice_x.shape)
     plot(lattice_x, lattice_y, z)

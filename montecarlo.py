@@ -26,7 +26,7 @@ def f(x):
         # For Poisson, assume that there is a constant charge density
         # between the plates
         # So f= - rho/epsilon
-        return (x / h - .5) * -charge_density / epsilon_naught
+        return (x / h - 0.5) * -charge_density / epsilon_naught
 
 
 def g(x):
@@ -39,9 +39,9 @@ def g(x):
 def poisson_approximation_fixed_step(A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
+    F = 0
     for i in range(N):
         x = A
-        F = 0
         while True:
             if x <= 0 or x >= h:
                 break
@@ -49,13 +49,14 @@ def poisson_approximation_fixed_step(A):
                 x += d
             else:
                 x -= d
-            F += f(x) / h ** 2
-        result += g(x) - F
-    result = result / N
+            F += f(x) * d ** 2
+        result += g(x) / N
+    result = result - F
     return result
 
 
 # Function for plotting the potential
+
 
 def plot(x, y, y2=None):
     plt.figure(figsize=(7, 5), dpi=100)
@@ -109,7 +110,7 @@ if __name__ == "__main__":
         gif.save(
             frames, f"Figures/{'Laplace' if laplace else 'Poisson'}_N.gif", duration=100
         )
-    plt.plot(range(10, 1000, 20), feild_diff, 'g.-')
+    plt.plot(range(10, 1000, 20), feild_diff, "g.-")
     plt.xlabel("Number of Random Walks")
     plt.ylabel("Abs Error")
     plt.show()

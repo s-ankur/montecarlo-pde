@@ -63,9 +63,9 @@ def f_3(x):
 def poisson_approximation_fixed_step(*A):
     # Returns the Value of Potential Feild at a given point A with N random walks
     result = 0
+    F = 0
     for i in range(N):
         x = list(A)
-        F = 0
         while True:
             if x[0] <= 0 or x[0] >= h or x[1] <= 0 or x[1] >= h:
                 break
@@ -78,9 +78,9 @@ def poisson_approximation_fixed_step(*A):
                 x[1] += d
             elif random_number == 3:
                 x[1] -= d
-            F += f(x) / h ** 2
-        result += g(x) - F
-    result = result / N
+            F += f(x) * h ** 2
+        result += g(x) / N
+    result = result - F
     return result
 
 
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks"
     )
     lattice_x, lattice_y = np.mgrid[
-        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
     ]
     z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
     )
     lattice_x, lattice_y = np.mgrid[
-        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
     ]
     z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
@@ -131,7 +131,7 @@ if __name__ == "__main__":
         f"Calculating Monte Carlo with {lattice_points}x{lattice_points} lattice points and {N} random walks for {'Laplace' if laplace else 'Poisson'}"
     )
     lattice_x, lattice_y = np.mgrid[
-        0: h: lattice_points * 1j, 0: h: lattice_points * 1j
+        0 : h : lattice_points * 1j, 0 : h : lattice_points * 1j
     ]
     z = poisson_approximation_fixed_step(lattice_x.ravel(), lattice_y.ravel()).reshape(
         lattice_x.shape
